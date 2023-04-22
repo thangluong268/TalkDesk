@@ -1,0 +1,83 @@
+:root {
+  --primary: #5405bd;
+}
+
+body {
+  margin: 0;
+  font-family: inter, helvetica, arial;
+  /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif; */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-gray {
+  background-color: #f4f5f6;
+}
+
+.d_flex_bethween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.d_none {
+  display: none !important;
+}
+
+.container {
+  color: white;
+  background: linear-gradient(to left, green, white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+}
+.form-box {
+  width: 450px;
+  height: 450px;
+  background-color: black;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0.5;
+  border-radius: 2%;
+}
+.header-form {
+  margin-bottom: 15px;
+}
+button {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding: 5px 40px;
+}
+
+button:last-child {
+  margin-top: 0;
+}
+.message {
+  display: flex;
+  justify-content: space-between;
+}
+.social {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px;
+}
+
+.social i {
+  font-size: 35px;
+}
+
+.social i:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.body-form input {
+  width: 100%;
+  padding: 10px;
+}

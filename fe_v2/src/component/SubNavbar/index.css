@@ -1,0 +1,36 @@
+.subnavbar {
+  padding: 0 10px;
+  background-color: #f4f5f6;
+}
+
+.navbar-feature {
+  margin: 0;
+  list-style-type: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.navbar-feature li {
+  cursor: pointer;
+  font-weight: 600;
+  color: black;
+  padding: 10px 20px;
+  font-size: 14px;
+
+  max-width: 150px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.navbar-feature li:hover {
+  color: #00bfff;
+  background-color: white;
+}
+
+.navbar-feature li.active {
+  color: #00bfff;
+  background-color: white;
+}

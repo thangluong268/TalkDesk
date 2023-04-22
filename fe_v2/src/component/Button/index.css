@@ -1,0 +1,115 @@
+.button-main {
+    font-family: inter, helvetica, arial;
+    font-size: 0.85rem;
+    padding: 0.85rem 1.975rem;
+    font-weight: 600;
+    background-color: #5405bd;
+    color: #ffffff;
+    border: 0.125rem #5405bd;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    line-height: 1.25rem;
+    letter-spacing: 0.01875rem;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  .gradient-main {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 0.6em;
+    margin-top: -0.25em;
+  }
+  
+  .label-main {
+    position: relative;
+  }
+  
+  .transition-main {
+    transition-timing-function: cubic-bezier(0, 0, 0.6, 1);
+    transition-duration: 0.4s;
+    background-color: #8023f9;
+    border-color: #8023f9;
+    border-radius: 9999px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .button-main:hover .transition-main {
+    width: 30em;
+    height: 30em;
+  }
+  
+  .button-main:active {
+    transform: scale(0.97);
+  }
+  
+  .button-sub {
+    font-family: inter, helvetica, arial;
+    font-size: 0.75rem;
+    padding: 0.75rem 1.875rem;
+    font-weight: 600;
+    background-color: transparent;
+    color: #ffffff;
+    border: solid 0.125rem #5405bd;
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    display: inline-flex;
+    line-height: 1.25rem;
+    letter-spacing: 0.01875rem;
+    cursor: pointer;
+    margin-left: 20px;
+  }
+  
+  .gradient-sub {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    border-radius: 0.6em;
+    margin-top: -0.25em;
+  }
+  
+  .label-sub {
+    position: relative;
+    color: #5405bd;
+  }
+  
+  .transition-sub {
+    transition-timing-function: cubic-bezier(0, 0, 0.7, 1);
+    transition-duration: 0.4s;
+    background-color: #8023f9;
+    border-color: #8023f9;
+    border-radius: 9999px;
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .button-sub:hover .transition-sub {
+    width: 30em;
+    height: 30em;
+  }
+  
+  .button-sub:hover .label-sub {
+    color: #ffffff;
+  }
+  
+  .button-sub:active {
+    transform: scale(0.97);
+  }
+  

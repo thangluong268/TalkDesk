@@ -1,0 +1,39 @@
+.container-staff {
+  padding: 0 20px 0 20px;
+}
+
+.btn-navigation {
+  float: right;
+  margin: 30px 0;
+}
+
+.staff-table {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.staff-table th,
+.staff-table td {
+  text-align: center;
+  padding: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.staff-table th {
+  font-weight: bold;
+  background-color: antiquewhite;
+}
+
+.staff-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+#delete-staff:hover {
+  background-color: red;
+  cursor: pointer;
+}
+
+#edit-staff:hover {
+  background-color: yellow;
+  cursor: pointer;
+}

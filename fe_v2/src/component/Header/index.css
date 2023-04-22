@@ -1,0 +1,132 @@
+.header {
+  padding: 0 10px;
+  background-color: #2d0364;
+  margin: 0;
+  height: 60px;
+}
+
+.header-left {
+  display: flex;
+}
+
+.navbar {
+  list-style-type: none;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.navbar li {
+  cursor: pointer;
+  padding: 20px 0;
+  margin: 0 20px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff9c;
+  position: relative;
+}
+
+.navbar li::before {
+  content: "";
+  display: block;
+  transform: translateY(30px);
+  border-bottom: 4px solid #ffffff;
+  opacity: 0;
+  transition: all 0.1s ease-in;
+}
+
+.navbar li:hover::before {
+  cursor: pointer;
+  border-bottom: 4px solid #ffffff;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.navbar li:hover {
+  color: #ffffff;
+}
+
+.navbar li > i {
+  position: absolute;
+  right: -20px;
+}
+
+.navbar li:last-child:hover i {
+  right: -23px;
+  z-index: 1;
+}
+
+.logo {
+  height: 34px;
+  width: 34px;
+  margin: 30px 20px 0 10px;
+  cursor: pointer;
+}
+
+.header .contact .contact-item {
+  font-size: 14px;
+  padding: 10px 4px;
+  margin: 0 12px;
+  color: #ffffff9c;
+}
+
+.header .contact .contact-item b {
+  padding: 10px;
+}
+
+.header .contact .contact-item i {
+  font-size: 10px;
+}
+
+.contact {
+  display: flex;
+  align-items: center;
+}
+
+.contact div {
+  cursor: pointer;
+  font-size: 20px;
+  padding: 30px 2px;
+}
+
+.contact .contact-item:hover {
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.contact div:last-child i {
+  transition: all 0.2s ease-in;
+}
+
+.contact div:last-child:hover i:last-child {
+  transform: rotate(-180deg);
+}
+
+.box-info {
+  display: none;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  background-color: #ffffff;
+  z-index: 2;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  color: black;
+  padding: 0 !important;
+}
+.box-info ul {
+  padding: 5px 0;
+  list-style: none;
+  margin: 0;
+}
+.box-info li {
+  padding: 5px 20px;
+  margin: 5px 0;
+  font-size: 15px;
+}
+.box-info li:hover {
+  background-color: #d7d7d7;
+}
+.contact div:last-child:hover .box-info {
+  display: block;
+}
