@@ -54,7 +54,7 @@ const Header = () => {
           ></i>
           <div className="box-info">
             <ul>
-              <li>{localStorage.getItem("name")}</li>
+              <li>{localStorage.getItem("name") || "Admin"}</li>
               <li
                 onClick={(e) => {
                   localStorage.removeItem("login");

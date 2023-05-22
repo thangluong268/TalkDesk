@@ -29,7 +29,6 @@ function AppLogin() {
       .then(function (response) {
         if (response.data.email == "admin@admin") {
           localStorage.setItem("login", "admin");
-          localStorage.setItem("name", response.data.name);
           document.location.href = "/admin";
         } else {
           localStorage.setItem("login", "user");
@@ -65,11 +64,6 @@ function AppLogin() {
     if (account.email == "" || account.password == "" || account.name == "") {
       alert("Vui lòng nhập đầy đủ thông tin");
       return;
-    } else {
-      if (account.email.indexOf("@student.hcmute.edu.vn") == -1) {
-        alert("Vui lòng nhập email sinh viên");
-        return;
-      }
     }
 
     Axios.post(process.env.REACT_APP_API + "/staff/send-otp", {
@@ -95,10 +89,6 @@ function AppLogin() {
             },
           }
         );
-        if (res.data.email.indexOf("@student.hcmute.edu.vn") == -1) {
-          alert("Vui lòng đăng nhập bằng email sinh viên");
-          return;
-        }
         Axios.post(
           process.env.REACT_APP_API + "/staff/logInOrSingInWithGoogle",
           {
@@ -120,6 +110,7 @@ function AppLogin() {
       }
     },
   });
+
   return (
     <div className="container">
       <div className="form-box">
@@ -178,30 +169,23 @@ function AppLogin() {
                         setAccount({ ...account, email: e.target.value });
                       }}
                       onBlur={(e) => {
-                        if (
-                          e.target.value.indexOf("@student.hcmute.edu.vn") == -1
-                        ) {
-                          alert("Vui lòng nhập email sinh viên");
-                          return;
-                        } else {
-                          Axios.post(
-                            process.env.REACT_APP_API + "/staff/send-otp",
-                            {
-                              email: e.target.value,
-                              otp: OTP,
-                              state: "forgot",
-                            }
-                          )
-                            .then(function (response) {
-                              alert(
-                                `Mã xác thực đã được gửi qua email: ${e.target.value}`
-                              );
-                              setHasOTPForgot(true);
-                            })
-                            .catch(function (error) {
-                              alert(error.response.data);
-                            });
-                        }
+                        Axios.post(
+                          process.env.REACT_APP_API + "/staff/send-otp",
+                          {
+                            email: e.target.value,
+                            otp: OTP,
+                            state: "forgot",
+                          }
+                        )
+                          .then(function (response) {
+                            alert(
+                              `Mã xác thực đã được gửi qua email: ${e.target.value}`
+                            );
+                            setHasOTPForgot(true);
+                          })
+                          .catch(function (error) {
+                            alert(error.response.data);
+                          });
                       }}
                       className="form-control"
                     />

@@ -1,0 +1,14 @@
+.pagination {
+  display: flex;
+  padding-left: 0;
+  list-style: none;
+  border-radius: 0.25rem;
+}
+
+.page-item {
+  background-color: #e2e2e2;
+  font-size: 15px;
+  display: inline-block;
+  padding: 15px;
+  cursor: pointer;
+}

@@ -8,14 +8,14 @@ const PieChartWithNeedle = (props) => {
   const cy = 200;
   const iR = 50;
   const oR = 100;
-  const value = 109;
+  const value = data[0].value;
 
   const needle = (value, data, cx, cy, iR, oR, color) => {
     let total = 0;
     data.forEach((v) => {
       total += v.value;
     });
-    const ang = 180.0 * (1 - value / total);
+    const ang = 180.0 * (1 -  value / total);
     const length = (iR + 2 * oR) / 3;
     const sin = Math.sin(-RADIAN * ang);
     const cos = Math.cos(-RADIAN * ang);
@@ -58,7 +58,7 @@ const PieChartWithNeedle = (props) => {
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>
-        {needle(value, data, cx, cy + 20, iR + 220, oR, "#000000")}
+        {needle(value, data, cx, cy, iR + 220, oR, "#000000")}
       </PieChart>
     </div>
   );

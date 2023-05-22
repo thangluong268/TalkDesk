@@ -2,81 +2,85 @@ import React from "react";
 import Feature2 from "../../component/Feature2";
 import StackedBarChart from "../../component/StackedBarChart";
 import PieChartWithNeedle from "../../component/PieChartWithNeedle";
+import Filter from "../../component/Filter";
+import Axios from "axios";
+import ConvertStringFollowFormat from "../../utils/ConvertStringFollowFormat";
+import ConvertTime from "../../utils/ConvertTime";
 
 const ServiceLevel = () => {
-  const filters = [
-    {
-      label: "Filter by Ring Group",
-      name: "filterByRingGroup",
-      value: ["All ring groups", "agents 2", "agents 3"],
-    },
 
-    {
-      label: "Filter by Phone Number",
-      name: "filterByPhoneNumber",
-      value: ["All phone numbers", "Phone number 1", "Phone number 2"],
-    },
-  ];
+  const [dataWaitime, setDataWaittime] = React.useState([]);
+  const [dataStatusTime, setDataStatusTime] = React.useState([]);
+  React.useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API}/agent/getAllWaitime`).then(
+      (response) => {
+        setDataWaittime(response.data);
+      }
+    );
+  }, []);
+  React.useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API}/agent/getAllStatusTime`).then(
+      (response) => {
+        setDataStatusTime(response.data);
+      }
+    );
+  }, []);
+
+
+  const result = dataWaitime.reduce((acc, curr) => {
+    const existingItem = acc.find(item => item.month === curr.month);
+    if (existingItem) {
+      existingItem.waitTime += curr.waitTime;
+    } else {
+      acc.push({month: curr.month, waitTime: curr.waitTime});
+    }
+    return acc;
+  }, []).sort((a, b) => a.month - b.month);
+  
+
+  const sumWaitTime = dataWaitime?.reduce((acc, curr) => {
+    return acc + curr.waitTime;
+  }, 0);
+  const sumStatusTime = dataStatusTime?.reduce((acc, curr) => {
+    return acc + curr.statusTime;
+  }, 0);
 
   const dataTimes = [
     {
-      value: "86:18:34",
+      value: ConvertTime(sumWaitTime),
       label: "Total Wait Time",
     },
     {
-      value: "01:27",
+      value: ConvertTime(Math.round(sumWaitTime / dataWaitime.length)),
       label: "Average Wait Time",
     },
     {
-      value: "15:08",
+      value: ConvertTime(Math.max(...dataWaitime.map((item) => item.waitTime))),
       label: "Longest Wait Time",
     },
     {
-      value: "01:46",
+      value: ConvertTime(Math.round(sumWaitTime / dataWaitime.length) + 10),
       label: "Average Abandonment Time",
     },
   ];
 
-  const dataStackedBarChart = [
-    {
-      name: "Sep 14",
-      waitTime: 40,
+  const dataStackedBarChart = result.map((item, index) => {
+    return {
+      name: "Month " + item.month,
+      waitTime: item.waitTime,
       barValue: [
         {
           dataKey: "waitTime",
           fill: "#2D88CE",
         },
       ],
-    },
-    {
-      name: "Sep 15",
-      waitTime: 50,
-    },
-    {
-      name: "Sep 16",
-      waitTime: 52,
-    },
-    {
-      name: "Sep 17",
-      waitTime: 100,
-    },
-    {
-      name: "Sep 18",
-      waitTime: 100,
-    },
-    {
-      name: "Sep 19",
-      waitTime: 70,
-    },
-    {
-      name: "Sep 20",
-      waitTime: 45,
-    },
-  ];
+    };
+  });
+
 
   const dataPieChartWithNeedle = [
-    { name: "A", value: 111.6, color: "#00CC00" },
-    { name: "B", value: 68.4, color: "#CC0000" },
+    { name: "A", value: sumStatusTime, color: "#00CC00" },
+    { name: "B", value: sumWaitTime, color: "#CC0000" },
   ];
 
   return (
@@ -84,25 +88,8 @@ const ServiceLevel = () => {
       <div className="main-content">
         <Feature2 text="Inbound Service Level Metrics" />
 
-        <div style={{ display: "flex", padding: "0 60px 40px 40px" }}>
-          {/* display filter */}
-          {filters.map((filter, index) => {
-            return (
-              <div style={{ paddingRight: "80px" }}>
-                <label for={filter.name}>{filter.label}</label>
-                <br></br>
-                <select
-                  name={filter.name}
-                  id={filter.name}
-                  style={{ width: "240px", height: "30px", fontSize: "14px" }}
-                >
-                  {filter.value.map((optionValue, optionIndex) => {
-                    return <option value={optionValue}>{optionValue}</option>;
-                  })}
-                </select>
-              </div>
-            );
-          })}
+        <div style={{ marginLeft: "40px" }}>
+          <Filter />
         </div>
 
         {/* display Calls */}
@@ -156,7 +143,7 @@ const ServiceLevel = () => {
           >
             <PieChartWithNeedle data={dataPieChartWithNeedle} />
             <div style={{ padding: "0 0 0 100px", margin: "-290px 0 0 20px" }}>
-              <p style={{ fontSize: "30px", fontWeight: "600" }}>62 %</p>
+              <p style={{ fontSize: "30px", fontWeight: "600" }}>{ Math.round((sumStatusTime / (sumStatusTime+sumWaitTime))*100) + "%"}</p>
               <div
                 style={{
                   display: "flex",

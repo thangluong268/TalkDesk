@@ -6,16 +6,38 @@ import Inbound from "./Inbound";
 import ServiceLevel from "./ServiceLevel";
 import Agents from "./Agents";
 import Numbers from "./Numbers";
+import StatisticKeyCall from "./StatisticKeyCall";
+import DisplayStaff from "../Admin/DisplayStaff";
+import AddAgent from "../Admin/AddAgent";
+import AddCall from "../Admin/AddCall";
+import AddStaff from "../Admin/AddStaff";
+import DisplayDeletedStaff from "../Admin/DisplayDeletedStaff";
+import StatisticKeyWord from "./StatisticKeyWord";
 
 function RealTimeDashBoard() {
-  const [eleNavbar, setEleNavbar] = React.useState("Live");
+  const [eleNavbar, setEleNavbar] = React.useState(
+    localStorage.getItem("login") == "admin" ? "Admin" : "Live"
+  );
+  const HandleSet = (data) => {
+    setEleNavbar(data);
+  };
   const dict = {
+    Admin: { src: <DisplayStaff handleSet={HandleSet} /> },
+    DisplayStaff: { src: <DisplayStaff handleSet={HandleSet} /> },
+    AddAgent: { src: <AddAgent handleSet={HandleSet} /> },
+    AddCall: { src: <AddCall handleSet={HandleSet} /> },
+    AddStaff: { src: <AddStaff handleSet={HandleSet} /> },
+    DisplayDeletedStaff: { src: <DisplayDeletedStaff handleSet={HandleSet} /> },
+
     Live: { src: <Live /> },
     Inbound: { src: <Inbound /> },
     ServiceLevel: { src: <ServiceLevel /> },
     Agents: { src: <Agents /> },
     Numbers: { src: <Numbers /> },
+    StatisticKeyCall: { src: <StatisticKeyCall /> },
+    StatisticKeyWord: { src: <StatisticKeyWord /> },
   };
+
   return (
     <div id="RealTimeDashBoard">
       <div className="main-content">

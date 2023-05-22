@@ -2,132 +2,60 @@ import React from "react";
 import Feature2 from "../../component/Feature2";
 import StackedBarChart from "../../component/StackedBarChart";
 
-const Inbound = () => {
-  const filters = [
-    {
-      label: "Filter by Ring Group",
-      name: "filterByRingGroup",
-      value: ["agents", "agents 2", "agents 3"],
-    },
+import Axios from "axios";
+import Filter from "../../component/Filter";
+import ConvertStringFollowFormat from "../../utils/ConvertStringFollowFormat";
 
-    {
-      label: "Filter by Phone Number",
-      name: "filterByPhoneNumber",
-      value: ["All phone numbers", "Phone number 1", "Phone number 2"],
-    },
-  ];
+const Inbound = () => {
+  const [dataCall, setDataCall] = React.useState([]);
+
+  React.useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API}/call/getAllCall`).then(
+      (response) => {
+        setDataCall(response.data);
+      }
+    );
+  }, []);
+
+  
+  const result = Object.entries(dataCall.reduce(
+    (acc, curr) => ({
+      totalCalls: acc.answeredCalls + acc.missedCalls + acc.abandonedCalls + acc.shortAbandonedCalls + acc.voicemail + curr.answeredCalls + curr.missedCalls + curr.abandonedCalls + curr.shortAbandonedCalls + curr.voicemail,
+      answeredCalls: acc.answeredCalls + curr.answeredCalls,
+      missedCalls: acc.missedCalls + curr.missedCalls,
+      abandonedCalls: acc.abandonedCalls + curr.abandonedCalls,
+      shortAbandonedCalls: acc.shortAbandonedCalls + curr.shortAbandonedCalls,
+      voicemail: acc.voicemail + curr.voicemail,
+
+    }),
+    { totalCalls: 0,answeredCalls: 0, missedCalls: 0, abandonedCalls: 0, shortAbandonedCalls: 0, voicemail: 0 }
+  ));
 
   const dataLiTag = ["Total", "Answered", "Missed", "Abandoned", "Voicemail"];
+  const color = ["#00994C", "#82ca9d", "#00FF80", "#FF9933", "#CC0000", "#006633"]
+  const dataLiTagValue = result.map((item, index) => {
+    if (index > 0) {
+      return {
+        dataKey: result[index][0],
+        fill: color[index-1],
+      }
+    } 
+    }).filter(item => item !== undefined)
+    
+  const dataStackedBarChart = dataCall.map((item, index) => {
+    return {
+      name: "Month " + item.month,
+      totalCalls: item.answeredCalls + item.missedCalls + item.abandonedCalls + item.shortAbandonedCalls + item.voicemail,
+      answeredCalls: item.answeredCalls,
+      missedCalls: item.missedCalls,
+      abandonedCalls: item.abandonedCalls,
+      shortAbandonedCalls: item.shortAbandonedCalls,
+      voicemail: item.voicemail,
+      barValue: dataLiTagValue,
+    }
+  })
+  
 
-  const dataCalls = [
-    {
-      value: "2419",
-      label: "Total Calls",
-    },
-    {
-      value: "1196",
-      label: "Answered Calls",
-    },
-    {
-      value: "472",
-      label: "Missed Calls",
-    },
-    {
-      value: "233",
-      label: "Abandoned Calls",
-    },
-    {
-      value: "274",
-      label: "Short Abandoned Calls",
-    },
-    {
-      value: "320",
-      label: "Voicemail",
-    },
-  ];
-
-  const dataStackedBarChart = [
-    {
-      name: "Page A",
-      totalCalls: 2363,
-      answeredCalls: 1157,
-      missedCalls: 452,
-      abandonedCalls: 220,
-      shortAbandonedCalls: 256,
-      voicemail: 296,
-      barValue: [
-        {
-          dataKey: "totalCalls",
-          fill: "#00994C",
-        },
-        {
-          dataKey: "answeredCalls",
-          fill: "#82ca9d",
-        },
-        {
-          dataKey: "missedCalls",
-          fill: "#00FF80",
-        },
-        {
-          dataKey: "abandonedCalls",
-          fill: "#FF9933",
-        },
-        {
-          dataKey: "shortAbandonedCalls",
-          fill: "#CC0000",
-        },
-        {
-          dataKey: "voicemail",
-          fill: "#006633",
-        },
-      ],
-    },
-    {
-      name: "Page B",
-      totalCalls: 2363,
-      answeredCalls: 1157,
-      missedCalls: 452,
-      abandonedCalls: 2200,
-      shortAbandonedCalls: 256,
-      voicemail: 296,
-    },
-    {
-      name: "Page C",
-      totalCalls: 2363,
-      answeredCalls: 1157,
-      missedCalls: 452,
-      abandonedCalls: 2710,
-      shortAbandonedCalls: 256,
-      voicemail: 296,
-    },
-    {
-      name: "Page D",
-      totalCalls: 2363,
-      answeredCalls: 1157,
-      missedCalls: 452,
-      abandonedCalls: 1120,
-      shortAbandonedCalls: 256,
-      voicemail: 296,
-    },
-    {
-      name: "Page E",
-      totalCalls: 2363,
-      answeredCalls: 1157,
-      missedCalls: 452,
-      abandonedCalls: 220,
-      shortAbandonedCalls: 256,
-      voicemail: 296,
-    },
-    {
-      name: "Page F",
-      totalCalls: 2363,
-      answeredCalls: 1157,
-      missedCalls: 452,
-      abandonedCalls: 220,
-      shortAbandonedCalls: 256,
-      voicemail: 296,
-    },
-  ];
 
   return (
     <div id="inbound">
@@ -141,26 +69,7 @@ const Inbound = () => {
             justifyContent: "space-around",
           }}
         >
-          <div style={{ display: "flex" }}>
-            {/* display filter */}
-            {filters.map((filter, index) => {
-              return (
-                <div style={{ paddingRight: "80px" }}>
-                  <label for={filter.name}>{filter.label}</label>
-                  <br></br>
-                  <select
-                    name={filter.name}
-                    id={filter.name}
-                    style={{ width: "240px", height: "30px", fontSize: "14px" }}
-                  >
-                    {filter.value.map((optionValue, optionIndex) => {
-                      return <option value={optionValue}>{optionValue}</option>;
-                    })}
-                  </select>
-                </div>
-              );
-            })}
-          </div>
+          <Filter />
 
           {/* display navbar-feature2 */}
           <div>
@@ -180,11 +89,11 @@ const Inbound = () => {
             justifyContent: "center",
           }}
         >
-          {dataCalls.map((dataCall) => {
+          {result.map((dataCall) => {
             return (
               <div style={{ padding: "0 60px 0 60px" }}>
                 <p style={{ fontSize: "30px", fontWeight: "600" }}>
-                  {dataCall.value}
+                  {dataCall[1]}
                 </p>
                 <div
                   style={{
@@ -193,7 +102,7 @@ const Inbound = () => {
                     paddingBottom: "60px",
                   }}
                 >
-                  <p style={{ fontSize: "12px" }}>{dataCall.label}</p>
+                  <p style={{ fontSize: "12px" }}>{ConvertStringFollowFormat(dataCall[0])}</p>
                   <i
                     class="fa-solid fa-circle-info"
                     style={{ color: "#c0c0c0", padding: "10px 0 0 10px" }}

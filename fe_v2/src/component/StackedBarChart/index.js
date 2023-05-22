@@ -13,20 +13,7 @@ import {
 
 const StackedBarChart = (props) => {
   const { data, title, styleChart, styleTitle, isChangeLegend } = props;
-  // const legendStyle = isChangeLegend ?
-  //     < Legend
-  //         layout='vertical'
-  //         align='right'
-  //         wrapperStyle={{
-  //             background: "#A0A0A0",
-  //             padding: "20px 0 0 0",
-  //             margin: "1000px -100px 300px 600px",
-  //             display: "flex",
-  //             alignContent: "center",
-  //             justifyContent: "center"
-  //         }}
-  //     />
-  //     : <Legend />
+ 
 
   return (
     <div style={styleChart}>
@@ -47,8 +34,7 @@ const StackedBarChart = (props) => {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          {/* {legendStyle} */}
-          {data[0].barValue.map((value) => {
+          {data[0]?.barValue.map((value) => {
             return (
               <Bar dataKey={value.dataKey} stackId="only" fill={value.fill} />
             );

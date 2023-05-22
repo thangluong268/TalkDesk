@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./style/index.css";
 import AppUser from "./AppUser";
-import AppAdmin from "./AppAdmin";
 import AppLogin from "./AppLogin";
 
 import { BrowserRouter } from "react-router-dom";
@@ -13,9 +12,8 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <GoogleOAuthProvider clientId={CLIENT_ID}>
-        {localStorage.getItem("login") == "admin" ? (
-          <AppAdmin />
-        ) : localStorage.getItem("login") == "user" ? (
+        {localStorage.getItem("login") == "admin" ||
+        localStorage.getItem("login") == "user" ? (
           <AppUser />
         ) : (
           <AppLogin />

@@ -37,3 +37,17 @@
   background-color: yellow;
   cursor: pointer;
 }
+
+.search-staff {
+  position: absolute;
+  left: 20px;
+}
+
+.search-staff input {
+  width: 300px;
+  height: 30px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 7px;
+}

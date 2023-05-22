@@ -1,119 +1,123 @@
 import React from "react";
 import Feature2 from "../../component/Feature2";
 import StackedBarChart from "../../component/StackedBarChart";
-
+import Filter from "../../component/Filter";
+import Axios from "axios";
 const Numbers = () => {
-  const filters = [
-    {
-      label: "Filter by Ring Group",
-      name: "filterByRingGroup",
-      value: ["All ring groups", "agents 2", "agents 3"],
-    },
-  ];
 
-  const dataStatusOfAgents = [
-    {
-      color: "#FF8000",
-      infor: "+13474785764 (Customer Support)",
-    },
-    {
-      color: "#0000CC",
-      infor: "+16506662103 (Billing)",
-    },
-    {
-      color: "#CC0000",
-      infor: "+17206084079 (Customer Support)",
-    },
-    {
-      color: "#009900",
-      infor: "+17813994788 (Billing)",
-    },
-    {
-      color: "#CCCC00",
-      infor: "+19739434580 (Sales Line)",
-    },
-  ];
+  const [listPhoneNumber, setListPhoneNumber] = React.useState([]);
+  const [listData, setListData] = React.useState([]);
 
-  const dataStackedBarChart = [
-    {
-      name: "Step 14",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 20,
-      "+17206084079(Customer Support)": 100,
-      "+17813994788(Billing)": 250,
-      "+19739434580(Sales Line)": 400,
-      barValue: [
-        {
-          dataKey: "+13474785764 (Customer Support)",
-          fill: "#FF8000",
-        },
-        {
-          dataKey: "+16506662103(Billing)",
-          fill: "#0000CC",
-        },
-        {
-          dataKey: "+17206084079(Customer Support)",
-          fill: "#CC0000",
-        },
-        {
-          dataKey: "+17813994788(Billing)",
-          fill: "#009900",
-        },
-        {
-          dataKey: "+19739434580(Sales Line)",
-          fill: "#CCCC00",
-        },
-      ],
-    },
-    {
-      name: "Step 15",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 10,
-      "+17206084079(Customer Support)": 100,
-      "+17813994788(Billing)": 252,
-      "+19739434580(Sales Line)": 390,
-    },
-    {
-      name: "Step 16",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 20,
-      "+17206084079(Customer Support)": 104,
-      "+17813994788(Billing)": 255,
-      "+19739434580(Sales Line)": 410,
-    },
-    {
-      name: "Step 17",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 10,
-      "+17206084079(Customer Support)": 50,
-      "+17813994788(Billing)": 50,
-      "+19739434580(Sales Line)": 0,
-    },
-    {
-      name: "Step 18",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 0,
-      "+17206084079(Customer Support)": 20,
-      "+17813994788(Billing)": 0,
-      "+19739434580(Sales Line)": 0,
-    },
-    {
-      name: "Step 19",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 20,
-      "+17206084079(Customer Support)": 100,
-      "+17813994788(Billing)": 270,
-      "+19739434580(Sales Line)": 390,
-    },
-    {
-      name: "Step 20",
-      "+13474785764 (Customer Support)": 0,
-      "+16506662103(Billing)": 10,
-      "+17206084079(Customer Support)": 110,
-      "+17813994788(Billing)": 260,
-      "+19739434580(Sales Line)": 400,
-    },
-  ];
+  React.useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_API}/agent/getAllPhoneNumbersAndMonth`)
+      .then((response) => {
+        setListData(response.data)
+        setListPhoneNumber(response.data.map((item) => item.phone).filter((item, index, self) => self.indexOf(item) === index));
+      })
+      .catch((error) => console.log(error));
+  }, []);
+  
+  console.log(listPhoneNumber)
+
+
+
+
+  const color = ["#FF0000","#FFA500","#FFFF00","#008000","#0000FF", "#800080","#FFC0CB","cyan","#000000","#808080","#F0E68C","#00FF00",];
+  
+  const dataStatusOfAgents = listPhoneNumber.map((item, index) => {
+    return {
+      color: color[index],
+      infor: item,
+    }
+  })
+
+  const barValue = listPhoneNumber.map((item, index) => {
+    return {
+      dataKey: item,
+      fill: color[index],
+    }
+  })
+
+
+  const reducedData = listData.reduce((acc, { phone, month }) => {
+    if (!acc[month]) acc[month] = {};
+    if (!acc[month][phone]) acc[month][phone] = 0;
+    acc[month][phone]++;
+    return acc;
+  }, {});
+  
+  const result = Object.entries(reducedData).map(([month, phones]) => {
+    return { ...phones, month };
+  });
+
+  const dataStackedBarChart = result.map((item) => {
+    return {
+      name: "Month" + item.month,
+      ...item,
+      barValue: barValue
+    }
+  })
+  
+
+  // const dataStackedBarChart = [
+  //   {
+  //     name: "Step 14",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 20,
+  //     "+17206084079(Customer Support)": 100,
+  //     "+17813994788(Billing)": 250,
+  //     "+19739434580(Sales Line)": 400,
+  //     barValue: barValue
+  //   },
+  //   {
+  //     name: "Step 15",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 10,
+  //     "+17206084079(Customer Support)": 100,
+  //     "+17813994788(Billing)": 252,
+  //     "+19739434580(Sales Line)": 390,
+  //   },
+  //   {
+  //     name: "Step 16",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 20,
+  //     "+17206084079(Customer Support)": 104,
+  //     "+17813994788(Billing)": 255,
+  //     "+19739434580(Sales Line)": 410,
+  //   },
+  //   {
+  //     name: "Step 17",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 10,
+  //     "+17206084079(Customer Support)": 50,
+  //     "+17813994788(Billing)": 50,
+  //     "+19739434580(Sales Line)": 0,
+  //   },
+  //   {
+  //     name: "Step 18",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 0,
+  //     "+17206084079(Customer Support)": 20,
+  //     "+17813994788(Billing)": 0,
+  //     "+19739434580(Sales Line)": 0,
+  //   },
+  //   {
+  //     name: "Step 19",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 20,
+  //     "+17206084079(Customer Support)": 100,
+  //     "+17813994788(Billing)": 270,
+  //     "+19739434580(Sales Line)": 390,
+  //   },
+  //   {
+  //     name: "Step 20",
+  //     "+13474785764 (Customer Support)": 0,
+  //     "+16506662103(Billing)": 10,
+  //     "+17206084079(Customer Support)": 110,
+  //     "+17813994788(Billing)": 260,
+  //     "+19739434580(Sales Line)": 400,
+  //   },
+  // ];
 
   const dataFooter = ["Service Level", "Inbound Calls", "Outbound Calls"];
 
@@ -122,25 +126,8 @@ const Numbers = () => {
       <div className="main-content">
         <Feature2 text="Phone Number Metrics" />
 
-        <div style={{ display: "flex", padding: "0 60px 40px 40px" }}>
-          {/* display filter */}
-          {filters.map((filter, index) => {
-            return (
-              <div style={{ paddingRight: "80px" }}>
-                <label for={filter.name}>{filter.label}</label>
-                <br></br>
-                <select
-                  name={filter.name}
-                  id={filter.name}
-                  style={{ width: "240px", height: "30px", fontSize: "14px" }}
-                >
-                  {filter.value.map((optionValue, optionIndex) => {
-                    return <option value={optionValue}>{optionValue}</option>;
-                  })}
-                </select>
-              </div>
-            );
-          })}
+        <div style={{ marginLeft: "40px", marginBottom: "20px" }}>
+          <Filter />
         </div>
 
         {/* display Chart */}

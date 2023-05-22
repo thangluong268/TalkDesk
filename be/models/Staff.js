@@ -7,7 +7,7 @@ const Staff = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String },
-    state: {type: Boolean, default: true},
+    state: { type: Boolean, default: true },
   },
   {
     timestamps: true,
